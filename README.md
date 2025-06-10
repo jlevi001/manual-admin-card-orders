@@ -10,96 +10,150 @@ Stable tag: 2.8.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Process payments from the WooCommerce Edit Order screen.
+**Enhanced WooCommerce Manual Payment Plugin with Automatic Order Number Tracking**
 
-== Description ==
+Process payments from the WooCommerce Edit Order screen with enhanced order number tracking in transaction descriptions.
 
-Charge credit and debit cards directly from the WooCommerce Edit&nbsp;Order screen. Perfect for taking phone orders without leaving your WordPress&nbsp;Admin.
+## 🚀 Key Enhancement
 
-### Features
+**Problem Solved:** Transaction descriptions now automatically include order numbers for better tracking and identification.
 
-* Partial payments
-* Multiple payments per order
-* Authorize charges without capturing
-* Automatically update order status
-* Automatically reduce stock
-* MOTO exemption for SCA with Stripe
+- **Before:** `"Dawson Aircraft, Inc."`
+- **After:** `"Dawson Aircraft, Inc. - Order 24768"`
 
-### Payment Gateways
+This matches the format used by the default WooCommerce Stripe Gateway, providing consistency across all payment methods.
 
-* Stripe
-* Authorize.net
-* Eway
+## 📋 Features
 
-== Installation ==
+- **Automatic Order Number Inclusion:** Transaction descriptions automatically append order numbers
+- **Multiple Payment Gateways:** Supports Stripe, Authorize.Net, and Eway
+- **Partial Payments:** Process multiple payments per order
+- **Authorization & Capture:** Authorize charges without capturing or capture immediately
+- **Automatic Order Updates:** Update order status and reduce stock levels automatically
+- **MOTO Exemption:** SCA exemption for Stripe transactions
+- **Enhanced Tracking:** Better transaction identification in payment gateway dashboards
 
-Scroll down for configuration instructions.
+## 🔧 Installation
 
-### Requirements
+1. Upload the plugin files to `/wp-content/plugins/manual-admin-card-orders/`
+2. Activate the plugin through the WordPress admin
+3. Go to **WooCommerce > Settings > Manual Payment** to configure
 
-* WordPress 4.7+
-* WooCommerce 3.3+
-* PHP 5.6+
-* An SSL certificate (not needed for Eway)
-* Curl (only needed for Eway)
+## ⚙️ Configuration
 
-If you're not sure whether your website is compatible, please contact your website administrator, web developer, or hosting provider. You can also post your question in the support forum.
+### General Settings
+- **Payment Gateway:** Choose from Stripe, Authorize.Net, or Eway
+- **Transaction Description:** Set your base description (order number is automatically appended)
+- **Capture Payments:** Choose to capture immediately or authorize only
+- **Order Status Updates:** Configure when to update order statuses
+- **Stock Management:** Control when stock levels are reduced
 
-### Installation
-
-You can find standard instructions for installing a plugin [here](https://wordpress.org/documentation/article/manage-plugins/#installing-plugins-1). Once that's done, you can move on to the **Configuration** section below.
-
-### Configuration
-
-To get started, you'll want to select a payment gateway and enter some API keys.
+### Gateway-Specific Setup
 
 #### Stripe
+1. Get your API keys from [Stripe Dashboard](https://dashboard.stripe.com/apikeys)
+2. Enable card data collection in Stripe settings
+3. Enter your Secret Key and Publishable Key
+4. Configure MOTO exemption if needed
 
-1. Go [here](https://dashboard.stripe.com/settings/integration) and switch on **Enable card data collection**.
-2. Get your live API keys [here](https://dashboard.stripe.com/apikeys), or your test keys [here](https://dashboard.stripe.com/test/apikeys).
-3. From your WordPress dashboard, go to **WooCommerce > Settings > Manual Payment**.
-4. Select **Stripe** from the **Payment Gateway** drop-down and click **Save changes**.
-5. Go to **WooCommerce > Settings > Manual Payment > Stripe**.
-6. Copy and paste your **Secret key** or **Restricted key** (from step 2) into the **Secret Key** field.
-7. Copy and paste your **Publishable key** (from step 2) into the **Publishable Key** field.
-8. Click **Save changes**. That's it, you're all set.
-
-#### Authorize.net
-
-1. Follow these instructions to get your API keys:
-    * If you already use an Authorize.net payment gateway:
-        1. Go to **WooCommerce > Settings > Payments > Authorize.net**.
-        2. Here you can find your API keys.
-    * If you do not already use an Authorize.net payment gateway:
-        1. [Follow these instructions](https://support.authorize.net/knowledgebase/Knowledgearticle/?code=000001271#:~:text=Steps%20to%20Generate%20Your%20API%20ID%20and%20Transaction/Signature%20Key).
-2. Follow these instructions to get your **Public Client Key**:
-    1. Click the links that apply to you:
-        * For live accounts:
-            1. Log in to the Authorize.net [Merchant Interface](https://account.authorize.net/).
-            2. Visit [this page](https://account.authorize.net/UI/themes/anet/User/ClientKey.aspx).
-        * For sandbox accounts:
-            1. Log in to the Authorize.net [Merchant Interface](https://sandbox.authorize.net/).
-            2. Visit [this page](https://sandbox.authorize.net/UI/themes/sandbox/User/ClientKey.aspx).
-    2. If you already have a **Public Client Key** on the page, you can skip this step. In the **Create New Public Client Key** section, click **Submit** and verify your identity.
-3. From your WordPress dashboard, go to **WooCommerce > Settings > Manual Payment**.
-4. Select **Authorize.net** from the **Payment Gateway** drop-down and click **Save changes**.
-5. Go to **WooCommerce > Settings > Manual Payment > Authorize.net**.
-6. Copy and paste your **API Login ID** (from step 1) into the **Login ID** field.
-7. Copy and paste your **Transaction Key** (from step 1) into the **Transaction Key** field.
-8. Copy and paste your **Public Client Key** (from step 2) into the **Client Key** field.
-9. Click **Save changes**. That's it, you're all set.
+#### Authorize.Net
+1. Get your API credentials from Authorize.Net Merchant Interface
+2. Enter API Login ID, Transaction Key, and Public Client Key
+3. Configure sandbox/live mode
 
 #### Eway
+1. Get your API credentials from Eway Partner Portal
+2. Enter API Key and API Password
+3. Configure sandbox/live mode
 
-1. Follow these instructions to get your API keys:
-    * If you already use an Eway payment gateway:
-        1. Go to **WooCommerce > Settings > Payments > Eway**.
-        2. Here you can find your API keys.
-    * If you do not already use an Eway payment gateway:
-        1. [Follow these instructions](https://go.eway.io/s/article/How-do-I-setup-my-Live-eWAY-API-Key-and-Password).
-2. From your WordPress dashboard, go to **WooCommerce > Settings > Manual Payment**.
-3. Select **Eway** from the **Payment Gateway** drop-down and click **Save changes**.
-4. Go to **WooCommerce > Settings > Manual Payment > Eway**.
-5. Copy and paste your **API Key** (from step 1) into the **API Key** field.
-6. Copy and paste your **API Password** (from step 1) into the **API Password** field.
-7. Click **Save changes**. That's it, you're all set.
+## 🎯 Usage
+
+1. Go to **WooCommerce > Orders**
+2. Edit any order
+3. Scroll to the **Manual Payment** section
+4. Enter payment details (amount, card information)
+5. Click **Process Payment**
+6. The transaction will appear in your gateway dashboard with the enhanced description including the order number
+
+## 🔍 Enhanced Transaction Descriptions
+
+The plugin automatically enhances transaction descriptions by appending order numbers:
+
+| Setting | Result |
+|---------|--------|
+| "Dawson Aircraft, Inc." | "Dawson Aircraft, Inc. - Order 24768" |
+| "Your Company Name" | "Your Company Name - Order 24769" |
+| "Manual Payment" | "Manual Payment - Order 24770" |
+
+This enhancement:
+- ✅ Improves transaction tracking in payment gateway dashboards
+- ✅ Matches the format used by standard WooCommerce Stripe Gateway
+- ✅ Makes it easier to reconcile payments with orders
+- ✅ Maintains all existing functionality while adding better identification
+
+## 📋 Requirements
+
+- **WordPress:** 4.7 or higher
+- **WooCommerce:** 3.3.0 or higher
+- **PHP:** 5.6.0 or higher
+- **SSL Certificate:** Required for live payments (not needed for Eway sandbox)
+
+## 🔒 Security
+
+- Uses WordPress nonces for CSRF protection
+- Requires `edit_shop_orders` capability
+- Follows WordPress and WooCommerce security best practices
+- Payment data is processed securely through official gateway APIs
+
+## 🛠️ Developer Information
+
+**Plugin Details:**
+- **Version:** 2.8.7
+- **Author:** Lingo Technologies
+- **Original Base:** WooCommerce Manual Payment plugin
+- **Key Enhancement:** Automatic order number inclusion in transaction descriptions
+- **Text Domain:** woo-mp
+- **License:** GPL v2 or later
+
+**Main Enhancement Location:**
+```php
+// File: includes/payment-processor.php
+private function get_enhanced_transaction_description( $order_id, $base_description ) {
+    return $base_description . ' - Order ' . $order_id;
+}
+```
+
+## 📞 Support
+
+For support and questions:
+- **Website:** [lingoit.net](https://lingoit.net)
+- **Support:** [lingoit.net/support](https://lingoit.net/support)
+
+## 📄 License
+
+This plugin is licensed under the GPL v2 or later.
+
+```
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+```
+
+## 📝 Changelog
+
+### Version 2.8.7 (Current)
+- **Enhanced:** Automatic order number inclusion in transaction descriptions
+- **Enhanced:** Updated branding to Lingo Technologies
+- **Enhanced:** Improved transaction tracking and identification
+- **Maintained:** All original functionality and compatibility
+
+### Version 2.8.6 (Original)
+- Based on WooCommerce Manual Payment plugin
+- Support for Stripe, Authorize.Net, and Eway
+- Manual payment processing from order edit screen
