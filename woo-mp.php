@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Manual Admin Card Orders
  * Description: Process payments from the WooCommerce Edit Order screen with enhanced order number tracking.
- * Version: 1.0.0
+ * Version: 2.8.7
  * Author: Lingo Technologies
  * Author URI: https://lingoit.net/
  * Requires at least: 4.7
@@ -17,7 +17,10 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * 
  * Originally based on WooCommerce Manual Payment plugin
- * Enhanced by Lingo Technologies with order number tracking
+ * Enhanced by Lingo Technologies with automatic order number tracking
+ * 
+ * Key Enhancement: Transaction descriptions now automatically include order numbers
+ * Example: "Dawson Aircraft, Inc. - Order 24768" instead of just "Dawson Aircraft, Inc."
  */
 
 defined( 'ABSPATH' ) || die;
@@ -42,7 +45,7 @@ if ( ! $woo_mp_should_load ) {
     return;
 }
 
-define( 'WOO_MP_VERSION', '2.8.6' );
+define( 'WOO_MP_VERSION', '2.8.7' );
 define( 'WOO_MP_PRO_COMPAT_VERSION', 9 );
 define( 'WOO_MP_PATH', dirname( __FILE__ ) );
 define( 'WOO_MP_URL', plugins_url( '', __FILE__ ) );

@@ -35,7 +35,10 @@ class Payment_Processor extends Transaction_Processor {
             'order'       => new Woo_MP_Order( wc_get_order( $params['order_id'] ) ),
             'amount'      => number_format( (float) $params['amount'], 2, '.', '' ),
             'capture'     => get_option( 'woo_mp_capture_payments', 'yes' ) === 'yes',
-            'description' => get_option( 'woo_mp_transaction_description', get_option( 'blogname', '' ) ),
+            'description' => $this->get_enhanced_transaction_description( 
+                $params['order_id'], 
+                get_option( 'woo_mp_transaction_description', get_option( 'blogname', '' ) ) 
+            ),
         ] + $params;
 
         $charge = $this->payment_gateway->get_payment_processor()->process( $params ) + $params;
@@ -48,19 +51,34 @@ class Payment_Processor extends Transaction_Processor {
     }
 
     /**
+     * Generate enhanced transaction description with order number.
+     *
+     * This is the key enhancement that automatically appends the order number
+     * to create descriptions like "Dawson Aircraft, Inc. - Order 24768"
+     *
+     * @param  int    $order_id         The WooCommerce order ID
+     * @param  string $base_description The base description from settings
+     * @return string                   Enhanced description with order number
+     */
+    private function get_enhanced_transaction_description( $order_id, $base_description ) {
+        // Always append the order number in the format: "Base Description - Order 12345"
+        return $base_description . ' - Order ' . $order_id;
+    }
+
+    /**
      * Do whatever needs to be done after a successful transaction.
      *
      * @param array $charge Charge info:
      *
      * [
-     *     'order_id'        => 0,
-     *     'order'           => null,
-     *     'trans_id'        => '',
-     *     'amount'          => 0,
-     *     'currency'        => '',
-     *     'last_4'          => '',
-     *     'capture'         => false,
-     *     'held_for_review' => false,
+     *     'order_id'         => 0,
+     *     'order'            => null,
+     *     'trans_id'         => '',
+     *     'amount'           => 0,
+     *     'currency'         => '',
+     *     'last_4'           => '',
+     *     'capture'          => false,
+     *     'held_for_review'  => false,
      * ]
      *
      * @return void
@@ -109,12 +127,12 @@ class Payment_Processor extends Transaction_Processor {
      */
     private function save_charge( $charge ) {
         $charge['order']->add_woo_mp_payment( [
-            'id'              => $charge['trans_id'],
-            'last4'           => $charge['last_4'],
-            'amount'          => $charge['amount'],
-            'currency'        => $charge['currency'],
-            'captured'        => $charge['capture'],
-            'held_for_review' => $charge['held_for_review'],
+            'id'               => $charge['trans_id'],
+            'last4'            => $charge['last_4'],
+            'amount'           => $charge['amount'],
+            'currency'         => $charge['currency'],
+            'captured'         => $charge['capture'],
+            'held_for_review'  => $charge['held_for_review'],
         ] );
 
         $should_save_wc_payment = false;
