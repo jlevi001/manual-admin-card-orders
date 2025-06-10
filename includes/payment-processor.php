@@ -54,15 +54,19 @@ class Payment_Processor extends Transaction_Processor {
      * Generate enhanced transaction description with order number.
      *
      * This is the key enhancement that automatically appends the order number
-     * to create descriptions like "Dawson Aircraft, Inc. - Order 24768"
+     * to create descriptions like "Dawson Aircraft, Inc. - Order 24786"
      *
      * @param  int    $order_id         The WooCommerce order ID
      * @param  string $base_description The base description from settings
      * @return string                   Enhanced description with order number
      */
     private function get_enhanced_transaction_description( $order_id, $base_description ) {
-        // Always append the order number in the format: "Base Description - Order 12345"
-        return $base_description . ' - Order ' . $order_id;
+        // Get the actual WooCommerce order object to access the order number
+        $order = wc_get_order( $order_id );
+        
+        // Use get_order_number() to get the actual WooCommerce order number
+        // NOT the internal WordPress post ID
+        return $base_description . ' - Order ' . $order->get_order_number();
     }
 
     /**
